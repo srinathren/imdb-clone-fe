@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BASE_URL from "../config";
-import "../styles/AddMovie.css"; 
+import "../styles/AddMovie.css";
 
 const EditMovie = () => {
   const { id } = useParams();
@@ -19,18 +19,12 @@ const EditMovie = () => {
   const [producers, setProducers] = useState([]);
   const [actorsList, setActorsList] = useState([]);
 
-  useEffect(() => {
-    fetchMovieDetails();
-    fetchProducers();
-    fetchActors();
-  }, []);
-
-  const fetchMovieDetails = async () => {
+  // Memoized fetch functions
+  const fetchMovieDetails = useCallback(async () => {
     try {
       const response = await fetch(`${BASE_URL}/movies/${id}`);
       if (!response.ok) throw new Error("Failed to fetch movie details");
       const data = await response.json();
-
       setMovie({
         ...data.data,
         producer: data.data.producer?._id || "",
@@ -39,9 +33,9 @@ const EditMovie = () => {
     } catch (error) {
       console.error("Error fetching movie:", error);
     }
-  };
+  }, [id]);
 
-  const fetchProducers = async () => {
+  const fetchProducers = useCallback(async () => {
     try {
       const response = await fetch(`${BASE_URL}/producers`);
       if (!response.ok) throw new Error("Failed to fetch producers");
@@ -50,9 +44,9 @@ const EditMovie = () => {
     } catch (error) {
       console.error("Error fetching producers:", error);
     }
-  };
+  }, []);
 
-  const fetchActors = async () => {
+  const fetchActors = useCallback(async () => {
     try {
       const response = await fetch(`${BASE_URL}/actors`);
       if (!response.ok) throw new Error("Failed to fetch actors");
@@ -61,22 +55,33 @@ const EditMovie = () => {
     } catch (error) {
       console.error("Error fetching actors:", error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchMovieDetails();
+    fetchProducers();
+    fetchActors();
+  }, [fetchMovieDetails, fetchProducers, fetchActors]); // ✅ Now included in dependency array
 
   const handleChange = (e) => {
-    setMovie({ ...movie, [e.target.name]: e.target.value });
+    setMovie((prevMovie) => ({
+      ...prevMovie,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleProducerChange = (e) => {
-    setMovie({ ...movie, producer: e.target.value });
+    setMovie((prevMovie) => ({
+      ...prevMovie,
+      producer: e.target.value,
+    }));
   };
 
   const handleActorCheckboxChange = (actorId) => {
     setMovie((prevMovie) => {
-      const isSelected = prevMovie.actors.includes(actorId);
-      const updatedActors = isSelected
-        ? prevMovie.actors.filter((id) => id !== actorId) // Remove if already selected
-        : [...prevMovie.actors, actorId]; // Add if not selected
+      const updatedActors = prevMovie.actors.includes(actorId)
+        ? prevMovie.actors.filter((id) => id !== actorId)
+        : [...prevMovie.actors, actorId];
 
       return { ...prevMovie, actors: updatedActors };
     });
@@ -84,7 +89,6 @@ const EditMovie = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch(`${BASE_URL}/movies/${id}`, {
         method: "PUT",
