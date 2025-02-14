@@ -1,0 +1,71 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Popup Form */
+  .popup-form {
+    width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+  
+  .popup-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .popup-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup-form input,
+  .popup-form select,
+  .popup-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .popup-form textarea {
+    resize: none;
+    height: 80px;
+  }
+  
+  .popup-form button {
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .popup-form button[type="submit"] {
+    background: #28a745;
+    color: white;
+  }
+  
+  .popup-form button[type="button"] {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .popup-form button:hover {
+    opacity: 0.8;
+  }
+  

@@ -1,0 +1,71 @@
+.movie-list-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .add-movie-btn {
+    background-color: gainsboro;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  
+  .movie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .movie-grid {
+      grid-template-columns: repeat(2, 1fr); 
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .movie-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  
+  .movie-card-wrapper {
+    position: relative;
+  }
+  
+  .icon-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+    gap: 10px;
+  }
+  
+  .movie-card-wrapper:hover .icon-wrapper {
+    display: flex;
+  }
+  
+  .edit-icon,
+  .delete-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .edit-icon:hover {
+    color: #007bff;
+  }
+  
+  .delete-icon:hover {
+    color: red;
+  }
+  
+  
+  
