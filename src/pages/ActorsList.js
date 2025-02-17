@@ -24,17 +24,51 @@ const ActorsList = () => {
 
   return (
     <div className="list-container">
-      <h1>Actors</h1>
+     
       {loading ? (
-        <p>Loading...</p>
+        <p style={{color:'white'}}>Loading...</p>
       ) : actors.length > 0 ? (
-        <ul>
+        <>
+        <h1
+        style={{
+          fontSize: "2.5rem",
+          color: 'white',
+          fontWeight: "700",
+          textTransform: "uppercase",
+          letterSpacing: "2px",
+          margin: 0,
+          display: "flex",
+          alignItems: "center", 
+          marginBottom:'2rem'
+        }}
+      >
+        <span
+          style={{
+            backgroundColor: "#ffcc00", 
+            color: "#222", 
+            fontWeight: "600", 
+            padding: "5px 10px",
+            borderRadius: "5px",
+            marginRight: "15px", 
+            fontSize: "1rem",
+            textTransform: "uppercase", 
+            height: '1.3rem'
+          }}
+        >
+
+        </span>
+        <span color="white">
+          Actor List
+        </span>
+      </h1>
+        <ul style={{height:'max-content', borderRadius:'2rem',paddingTop:'2rem', paddingBottom:'2rem',background:'gray'}}>
           {actors.map((actor) => (
-            <li key={actor._id}>
+            <li key={actor._id} style={{color:'whitesmoke'}}>
               <strong>{actor.name}</strong> ({actor.bio})
             </li>
           ))}
         </ul>
+        </>
       ) : (
         <p>No actors available.</p>
       )}

@@ -116,13 +116,13 @@ button {
 }
 
 button[type="submit"] {
-  background-color: #4299e1;
+  background-color: gold;
   color: white;
   margin-top: 1rem;
 }
 
 button[type="submit"]:hover {
-  background-color: #3182ce;
+  background-color: goldenrod;
 }
 
 button[type="button"] {

@@ -106,7 +106,38 @@ const EditMovie = () => {
 
   return (
     <div className="add-movie-container">
-      <h1>Edit Movie</h1>
+      <h1
+          style={{
+            fontSize: "2.5rem",
+            color: 'black',
+            marginBottom:'1rem',
+            fontWeight: "700",
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            margin: 0,
+            display: "flex",
+            alignItems: "center", // Aligns the gold tag and text vertically
+          }}
+        >
+          <span
+            style={{
+              backgroundColor: "#ffcc00", // Gold color for the tag
+              color: "#222", // Dark color for the tag text
+              fontWeight: "600", // Slightly bold for emphasis
+              padding: "5px 10px",
+              borderRadius: "5px",
+              marginRight: "15px", // Space between the tag and the text
+              fontSize: "1rem", // Smaller font size for the tag
+              textTransform: "uppercase", // Make tag text uppercase
+              height: '1.3rem'
+            }}
+          >
+
+          </span>
+          <span color="white">
+            Edit Movie
+          </span>
+        </h1>
       <form className="add-movie-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Movie Name:</label>
@@ -142,7 +173,7 @@ const EditMovie = () => {
 
         <div className="form-group">
           <label>Actors:</label>
-          <div className="actor-checkbox-group">
+          <div className="actor-checkbox-group" style={{display:'flex', flexDirection:'column', gap:'1rem'}} >
             {actorsList.map((actor) => (
               <label key={actor._id} className="actor-checkbox">
                 <input
@@ -157,7 +188,7 @@ const EditMovie = () => {
           </div>
         </div>
 
-        <button type="submit">Update Movie</button>
+        <button type="submit" style={{color:"black"}}>Update Movie</button>
       </form>
     </div>
   );

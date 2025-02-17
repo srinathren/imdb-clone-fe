@@ -59,7 +59,38 @@ const AddMovie = () => {
 
   return (
     <div className="add-movie-container">
-      <h1>Add Movie</h1>
+      <h1
+          style={{
+            fontSize: "2.5rem",
+            color: 'black',
+            fontWeight: "700",
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            margin: 0,
+            display: "flex",
+            alignItems: "center", 
+            marginBottom:'2rem'
+          }}
+        >
+          <span
+            style={{
+              backgroundColor: "#ffcc00", 
+              color: "#222", 
+              fontWeight: "600", 
+              padding: "5px 10px",
+              borderRadius: "5px",
+              marginRight: "15px", 
+              fontSize: "1rem",
+              textTransform: "uppercase", 
+              height: '1.3rem'
+            }}
+          >
+
+          </span>
+          <span color="black">
+            Add Movie
+          </span>
+        </h1>
 
       <form onSubmit={handleSubmit} className="add-movie-form">
         <div className="form-group">
@@ -114,7 +145,7 @@ const AddMovie = () => {
           </div>
         </div>
 
-        <button type="submit">Save</button>
+        <button type="submit" style={{color:'black'}}>Save</button>
       </form>
 
       {showAddActorForm && <AddActorForm onClose={() => setShowAddActorForm(false)} onActorAdded={fetchData} />}

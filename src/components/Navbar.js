@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav style={styles.navbar}>
-      <h2 style={styles.logo}>IMDB Clone</h2>
+      <h2 style={{...styles.logo, fontWeight:'bolder'}}>IMDB Clone</h2>
       <ul style={styles.navLinks}>
         <li>
           <Link to="/" style={styles.link}>Movies</Link>
@@ -31,10 +31,15 @@ const styles = {
     padding: "15px 30px",
     background: "#333",
     color: "#fff",
+    height: '9vh'
   },
   logo: {
     margin: 0,
     fontSize: "1.5rem",
+    background:"gold",
+    padding:'0.5rem',
+    color:'black',
+    borderRadius: '0.3rem',
   },
   navLinks: {
     listStyle: "none",

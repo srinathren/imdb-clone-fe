@@ -9,16 +9,25 @@ import ProducersList from "./pages/ProducersList";
 
 const App = () => {
   return (
+    // <div>
+      
     <Router>
-      <Navbar />
+    <Navbar />
+    <div style={{display:'flex', justifyContent:'center', alignContent:'center',background: "linear-gradient(135deg, #1a1a1a, #333333)", // Dark gradient background
+}}>
+    <div style={{width:'80%'}}>
       <Routes>
         <Route path="/" element={<MovieList />} />
         <Route path="/add-movie" element={<AddMovie />} />
         <Route path="/edit-movie/:id" element={<EditMovie />} />
         <Route path="/actors" element={<ActorsList />} />
         <Route path="/producers" element={<ProducersList />} />
+        
       </Routes>
+      </div>
+      </div>
     </Router>
+    // </div>
   );
 };
 
