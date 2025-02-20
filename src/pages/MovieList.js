@@ -1,28 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies, deleteMovieAsync } from "../redux/slices/movieSlice.js";
 import MovieCard from "../components/MovieCard";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "../styles/MovieList.css";
+import RecentMovies from "../components/RecentMovies.js";
 
 const MovieList = () => {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies.list);
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
-
-
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const movieRefs = useRef({}); 
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
 
-
- 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this movie?")) {
       dispatch(deleteMovieAsync(id));
     }
   };
+
+
+  const scrollToMovie = (movieId) => {
+    if (movieRefs.current[movieId]) {
+      movieRefs.current[movieId].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  };
+
+  const filteredMovies = movies.filter((movie) =>
+    movie.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div
@@ -30,63 +43,83 @@ const MovieList = () => {
       style={{
         padding: "20px",
         fontFamily: "Arial, sans-serif",
-        background: "linear-gradient(135deg, #1a1a1a, #333333)", // Dark gradient background
-        backgroundAttachment: "fixed", // Keeps the background fixed while scrolling
+        background: "linear-gradient(135deg, #1a1a1a, #333333)",
+        backgroundAttachment: "fixed",
         borderRadius: "10px",
-        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)", // Deep shadow for depth
-        color: "#fff", // White text for contrast
-        backdropFilter: "blur(5px)", // Slight blur to add depth
+        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
+        color: "#fff",
+        backdropFilter: "blur(5px)",
         position: "relative",
         overflow: "hidden",
         zIndex: "1",
       }}
     >
-      {/* Title and Button Row */}
+      <div style={{ marginBottom: "40px", marginTop: "40px" }}>
+          <RecentMovies scrollToMovie={scrollToMovie} />
+      </div>
+      
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: "20px",
+          flexWrap: "wrap",
+          gap: "15px",
         }}
       >
         <h1
           style={{
             fontSize: "2.5rem",
-            color: 'white',
+            color: "white",
             fontWeight: "700",
             textTransform: "uppercase",
             letterSpacing: "2px",
             margin: 0,
             display: "flex",
-            alignItems: "center", // Aligns the gold tag and text vertically
+            alignItems: "center",
           }}
         >
           <span
             style={{
-              backgroundColor: "#ffcc00", // Gold color for the tag
-              color: "#222", // Dark color for the tag text
-              fontWeight: "600", // Slightly bold for emphasis
+              backgroundColor: "#ffcc00",
+              color: "#222",
+              fontWeight: "600",
               padding: "5px 10px",
               borderRadius: "5px",
-              marginRight: "15px", // Space between the tag and the text
-              fontSize: "1rem", // Smaller font size for the tag
-              textTransform: "uppercase", // Make tag text uppercase
-              height: '1.3rem'
+              marginRight: "15px",
+              fontSize: "1rem",
+              textTransform: "uppercase",
+              height: "1.3rem",
             }}
-          >
-
-          </span>
-          <span color="white">
-            Movies
-          </span>
+          ></span>
+          <span color="white">Movies</span>
         </h1>
+
+        <input
+          type="text"
+          placeholder="Search movies..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: "10px 15px",
+            borderRadius: "5px",
+            border: "none",
+            fontSize: "1rem",
+            width: "200px",
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            color: "#fff",
+            outline: "none",
+            transition: "all 0.3s ease",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+          }}
+        />
 
         <Link to="/add-movie">
           <button
             className="add-movie-btn"
             style={{
-              backgroundColor: "gold", // Green background for button
+              backgroundColor: "gold",
               color: "black",
               padding: "12px 30px",
               borderRadius: "5px",
@@ -98,15 +131,12 @@ const MovieList = () => {
               textTransform: "uppercase",
               fontWeight: "600",
             }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "goldenrod")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "gold")}
           >
             Add Movie
           </button>
         </Link>
       </div>
 
-      {/* Movie Grid */}
       <div
         className="movie-grid"
         style={{
@@ -116,20 +146,22 @@ const MovieList = () => {
           marginTop: "20px",
         }}
       >
-        {movies.length > 0 ? (
-          movies.map((movie) => (
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
             <div
               key={movie._id}
-              className={`movie-card-wrapper ${hoveredMovieId === movie._id ? "hovered" : ""
-                }`}
+              ref={(el) => (movieRefs.current[movie._id] = el)}
+              className={`movie-card-wrapper ${
+                hoveredMovieId === movie._id ? "hovered" : ""
+              }`}
               onMouseEnter={() => setHoveredMovieId(movie._id)}
               onMouseLeave={() => setHoveredMovieId(null)}
               style={{
                 position: "relative",
                 borderRadius: "8px",
-                boxShadow: "0 4px 8px rgb(255, 204, 0)", // Uniform yellow shadow for each card
+                boxShadow: "0 4px 8px rgb(255, 204, 0)",
                 overflow: "hidden",
-                backgroundColor: "#222222", // Dark background for each card
+                backgroundColor: "#222222",
                 padding: "15px",
                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
                 cursor: "pointer",
@@ -138,6 +170,7 @@ const MovieList = () => {
               <MovieCard
                 movie={movie}
                 showBio={hoveredMovieId === movie._id}
+                scrollToMovie={scrollToMovie}
                 style={{
                   width: "100%",
                   height: "auto",
@@ -150,7 +183,7 @@ const MovieList = () => {
                   position: "absolute",
                   top: "10px",
                   right: "10px",
-                  backgroundColor: "rgba(0, 0, 0, 0.6)", // Darker background for icons
+                  backgroundColor: "rgba(0, 0, 0, 0.6)",
                   borderRadius: "5px",
                   padding: "5px",
                   display: hoveredMovieId === movie._id ? "flex" : "none",
@@ -183,8 +216,22 @@ const MovieList = () => {
               </div>
             </div>
           ))
+        ) : searchTerm ? (
+          <p style={{ fontSize: "1.2rem", color: "#ccc", textAlign: "center" }}>
+            No movies found matching "{searchTerm}"
+          </p>
         ) : (
-          <p style={{ fontSize: "1.2rem", color: "#ccc", display:'flex', justifyContent:'center', alignContent:'center' }}><span>LOADING ...</span></p>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              color: "#ccc",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <span>LOADING ...</span>
+          </p>
         )}
       </div>
     </div>

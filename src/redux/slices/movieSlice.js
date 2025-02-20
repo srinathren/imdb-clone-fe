@@ -4,7 +4,6 @@ import { getMovies, createMovie, updateMovie, deleteMovie } from "../../services
 // Fetch movies
 export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
   const response = await getMovies();
-  console.log("Fetched Movies:", response.data);
   return response.data.data;
 });
 

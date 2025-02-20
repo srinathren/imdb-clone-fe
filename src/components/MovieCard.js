@@ -7,10 +7,11 @@ const MovieCard = ({ movie }) => {
       <div className="movie-card">
         <img src={movie.poster} alt={movie.name} className="movie-poster" />
         <div className="movie-bio">
-          <h3>{movie.name}</h3>
-          <p>Year: {movie.year_of_release}</p>
-          <p>Producer: {movie.producer.name}</p>
-          <p>Actors: {movie.actors.map((actor) => actor.name).join(", ")}</p>
+          <h2>{movie.name}</h2>
+          <p>{movie.year_of_release}</p>
+          <p><em>Bio: {movie.plot}</em></p>
+          <p><em>Producer: {movie.producer.name}</em></p>
+          <p><em>Actors: {movie.actors.map((actor) => actor.name).join(", ")}</em></p>
         </div>
       </div>
     </div>
